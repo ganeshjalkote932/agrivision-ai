@@ -21,7 +21,7 @@ An advanced AI-powered web application for detecting crop diseases using hypersp
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/agrivision-ai.git
+   git clone https://github.com/ganeshjalkote932/agrivision-ai.git
    cd agrivision-ai
    ```
 
@@ -42,7 +42,7 @@ An advanced AI-powered web application for detecting crop diseases using hypersp
 
 ### Option 2: Deploy to Heroku
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/yourusername/agrivision-ai)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/ganeshjalkote932/agrivision-ai)
 
 1. Click the "Deploy to Heroku" button above
 2. Create a Heroku account if needed
@@ -144,8 +144,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🆘 Support
 
-- **Issues**: [GitHub Issues](https://github.com/yourusername/agrivision-ai/issues)
-- **Documentation**: [Wiki](https://github.com/yourusername/agrivision-ai/wiki)
+- **Issues**: [GitHub Issues](https://github.com/ganeshjalkote932/agrivision-ai/issues)
+- **Documentation**: [Wiki](https://github.com/ganeshjalkote932/agrivision-ai/wiki)
 - **Email**: your.email@example.com
 
 ## 🙏 Acknowledgments
