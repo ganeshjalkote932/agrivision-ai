@@ -1,0 +1,16 @@
+{
+  "demo_disease_detector": {
+    "model_path": "models_demo\\demo_disease_detector\\demo_disease_detector_model.joblib",
+    "preprocessor_path": "models_demo\\demo_disease_detector\\demo_disease_detector_preprocessor.joblib",
+    "metadata_path": "models_demo\\demo_disease_detector\\demo_disease_detector_metadata.json",
+    "config_path": "models_demo\\demo_disease_detector\\demo_disease_detector_config.json",
+    "export_timestamp": "2025-10-23T15:04:33.251125",
+    "model_hash": "125929872fb5ea06",
+    "performance_metrics": {
+      "train_accuracy": 1.0,
+      "test_accuracy": 0.935,
+      "n_samples_train": 800,
+      "n_samples_test": 200
+    }
+  }
+}

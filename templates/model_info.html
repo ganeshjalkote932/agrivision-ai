@@ -1,0 +1,180 @@
+{% extends "base.html" %}
+
+{% block title %}Model Information - Crop Disease Detection{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row">
+        <div class="col-12">
+            <h2><i class="fas fa-brain"></i> Model Information</h2>
+        </div>
+    </div>
+
+    {% if model_available %}
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-cog"></i> Model Details</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-borderless">
+                        <tr>
+                            <td><strong>Model Type:</strong></td>
+                            <td>{{ metadata.get('model_type', 'Unknown') }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Training Algorithm:</strong></td>
+                            <td>{{ metadata.get('training_config', {}).get('algorithm', 'Unknown') }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Number of Features:</strong></td>
+                            <td>{{ metadata.get('n_features', 'Unknown') }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Training Date:</strong></td>
+                            <td>{{ metadata.get('training_timestamp', 'Unknown') }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Model Version:</strong></td>
+                            <td>{{ metadata.get('model_version', '1.0') }}</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-chart-bar"></i> Performance Metrics</h5>
+                </div>
+                <div class="card-body">
+                    {% if metadata.get('performance_metrics') %}
+                    <table class="table table-borderless">
+                        {% for metric, value in metadata.performance_metrics.items() %}
+                        <tr>
+                            <td><strong>{{ metric.replace('_', ' ').title() }}:</strong></td>
+                            <td>
+                                {% if value is number %}
+                                    {{ "%.4f"|format(value) }}
+                                {% else %}
+                                    {{ value }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                    {% else %}
+                    <p class="text-muted">No performance metrics available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-wave-square"></i> Spectral Information</h5>
+                </div>
+                <div class="card-body">
+                    {% if metadata.get('wavelengths') %}
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p><strong>Number of Bands:</strong> {{ metadata.wavelengths|length }}</p>
+                        </div>
+                        <div class="col-md-4">
+                            <p><strong>Wavelength Range:</strong> 
+                               {{ "%.0f"|format(metadata.wavelengths|min) }} - {{ "%.0f"|format(metadata.wavelengths|max) }} nm</p>
+                        </div>
+                        <div class="col-md-4">
+                            <p><strong>Spectral Resolution:</strong> 
+                               {{ "%.1f"|format((metadata.wavelengths|max - metadata.wavelengths|min) / metadata.wavelengths|length) }} nm</p>
+                        </div>
+                    </div>
+                    {% else %}
+                    <p class="text-muted">No wavelength information available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if metadata.get('training_config') %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-sliders-h"></i> Training Configuration</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        {% for key, value in metadata.training_config.items() %}
+                        <div class="col-md-6 mb-2">
+                            <strong>{{ key.replace('_', ' ').title() }}:</strong> {{ value }}
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h5><i class="fas fa-info-circle"></i> Model Status</h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i>
+                        <strong>Model Ready:</strong> The disease detection model is loaded and ready for analysis.
+                    </div>
+                    <p>You can now upload hyperspectral data files for disease detection analysis.</p>
+                    <a href="{{ url_for('upload_file') }}" class="btn btn-primary">
+                        <i class="fas fa-upload"></i> Start Analysis
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% else %}
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-warning">
+                    <h5><i class="fas fa-exclamation-triangle"></i> Model Not Available</h5>
+                </div>
+                <div class="card-body">
+                    {% if error %}
+                    <div class="alert alert-danger">
+                        <strong>Error:</strong> {{ error }}
+                    </div>
+                    {% endif %}
+                    
+                    <p>No trained model is currently available for disease detection. To use this application, you need to:</p>
+                    
+                    <ol>
+                        <li>Train a disease detection model using the training pipeline</li>
+                        <li>Ensure the model files are saved in the correct directory</li>
+                        <li>Restart the web application</li>
+                    </ol>
+                    
+                    <div class="alert alert-info">
+                        <strong>Expected Model Location:</strong><br>
+                        <code>results/session_*/models/best_model_*/</code>
+                    </div>
+                    
+                    <p>Please refer to the training documentation or run the training pipeline to create a model.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

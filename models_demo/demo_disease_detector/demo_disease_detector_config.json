@@ -1,0 +1,38 @@
+{
+  "model_config": {
+    "mlp_hidden_layers": [
+      256,
+      128,
+      64
+    ],
+    "mlp_activation": "relu",
+    "mlp_solver": "adam",
+    "mlp_learning_rate": "adaptive",
+    "mlp_max_iter": 1000,
+    "mlp_early_stopping": true,
+    "mlp_validation_fraction": 0.1,
+    "rf_n_estimators": 200,
+    "rf_max_depth": null,
+    "rf_min_samples_split": 2,
+    "rf_min_samples_leaf": 1,
+    "rf_max_features": "sqrt",
+    "rf_bootstrap": true,
+    "svm_kernel": "rbf",
+    "svm_C": 1.0,
+    "svm_gamma": "scale",
+    "svm_probability": true,
+    "cv_folds": 5,
+    "n_jobs": -1,
+    "random_state": 42
+  },
+  "training_config": {
+    "algorithm": "RandomForest",
+    "n_estimators": 100,
+    "max_depth": null,
+    "random_state": 42
+  },
+  "export_settings": {
+    "compression": "joblib_default",
+    "format_version": "1.0"
+  }
+}

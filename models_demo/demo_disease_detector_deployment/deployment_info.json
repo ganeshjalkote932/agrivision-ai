@@ -1,0 +1,16 @@
+{
+  "model_name": "demo_disease_detector",
+  "deployment_format": "joblib",
+  "deployment_timestamp": "2025-10-23T15:04:33.427231",
+  "files": {
+    "model": "models_demo\\demo_disease_detector_deployment\\demo_disease_detector.joblib",
+    "preprocessor": "models_demo\\demo_disease_detector_deployment\\demo_disease_detector_preprocessor.joblib",
+    "metadata": "models_demo\\demo_disease_detector_deployment\\model_metadata.json"
+  },
+  "usage_instructions": {
+    "loading": "model = joblib.load('demo_disease_detector.joblib')",
+    "preprocessing": "preprocessor = joblib.load('demo_disease_detector_preprocessor.joblib')",
+    "prediction": "prediction = model.predict(preprocessed_data)",
+    "probability": "probabilities = model.predict_proba(preprocessed_data)"
+  }
+}
