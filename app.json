@@ -1,37 +1,39 @@
 {
-    "name": "AgriVision AI",
-    "description": "Advanced AI-powered hyperspectral crop disease detection platform",
-    "repository": "https://github.com/ganeshjalkote932/agrivision-ai",
-    "logo": "https://raw.githubusercontent.com/yourusername/agrivision-ai/main/static/logo.png",
-    "keywords": [
-        "agriculture",
-        "ai",
-        "machine-learning",
-        "hyperspectral",
-        "crop-disease",
-        "flask"
-    ],
-    "image": "heroku/python",
-    "stack": "heroku-22",
-    "buildpacks": [
-        {
-            "url": "heroku/python"
-        }
-    ],
-    "env": {
-        "FLASK_ENV": {
-            "description": "Flask environment",
-            "value": "production"
-        }
-    },
-    "formation": {
-        "web": {
-            "quantity": 1,
-            "size": "basic"
-        }
-    },
-    "addons": [],
-    "scripts": {
-        "postdeploy": "echo 'AgriVision AI deployed successfully!'"
+  "name": "AgriVision AI Multi-User Platform",
+  "description": "Advanced AI-powered hyperspectral crop disease detection with multi-user support",
+  "repository": "https://github.com/ganeshjalkote932/agrivision-ai",
+  "logo": "https://raw.githubusercontent.com/ganeshjalkote932/agrivision-ai/main/static/logo.png",
+  "keywords": ["agriculture", "ai", "machine-learning", "hyperspectral", "crop-disease", "flask", "multi-user"],
+  "image": "heroku/python",
+  "stack": "heroku-22",
+  "buildpacks": [
+    {
+      "url": "heroku/python"
     }
+  ],
+  "env": {
+    "FLASK_ENV": {
+      "description": "Flask environment",
+      "value": "production"
+    },
+    "SECRET_KEY": {
+      "description": "Secret key for Flask sessions",
+      "generator": "secret"
+    }
+  },
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "basic"
+    }
+  },
+  "addons": [
+    {
+      "plan": "heroku-postgresql:mini",
+      "as": "DATABASE"
+    }
+  ],
+  "scripts": {
+    "postdeploy": "python init_db.py"
+  }
 }

@@ -1,1 +1,2 @@
-web: python simple_web_app.py
+web: gunicorn agrivision_app:app
+release: python init_db.py

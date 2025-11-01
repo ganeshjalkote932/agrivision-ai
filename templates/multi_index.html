@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriVision AI - Multi-User Platform</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-section { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            color: white; 
+            padding: 4rem 0; 
+        }
+        .role-card { 
+            transition: transform 0.3s; 
+            height: 100%;
+            border: none;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .role-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="fas fa-leaf"></i> AgriVision AI
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/login">Login</a>
+                <a class="nav-link" href="/register">Register</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-3 mb-4 fw-bold">
+                <i class="fas fa-microscope"></i> AgriVision AI
+            </h1>
+            <p class="lead mb-4 fs-4">
+                🌱 Multi-User Hyperspectral Crop Disease Detection Platform
+            </p>
+            <p class="mb-4">
+                Advanced AI-powered analysis with role-based access for Farmers, Model Trainers, and Administrators
+            </p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                <a href="/login" class="btn btn-light btn-lg">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+                <a href="/register" class="btn btn-outline-light btn-lg">
+                    <i class="fas fa-user-plus"></i> Register
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold">👥 User Roles</h2>
+            <p class="lead">Choose your role based on your needs</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="card role-card h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-seedling fa-4x text-success mb-3"></i>
+                        <h5 class="card-title">👨‍🌾 Farmer</h5>
+                        <p class="card-text">Upload and analyze your hyperspectral crop data to detect diseases early and improve yield.</p>
+                        <ul class="list-unstyled">
+                            <li>✅ Upload hyperspectral files</li>
+                            <li>✅ Get disease detection results</li>
+                            <li>✅ View analysis history</li>
+                            <li>✅ Download reports</li>
+                        </ul>
+                        <p class="text-muted"><strong>Access:</strong> Open registration</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card role-card h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-flask fa-4x text-primary mb-3"></i>
+                        <h5 class="card-title">🔬 Model Trainer</h5>
+                        <p class="card-text">Train and improve AI models, access advanced analytics, and manage model performance.</p>
+                        <ul class="list-unstyled">
+                            <li>✅ All Farmer features</li>
+                            <li>✅ Model training interface</li>
+                            <li>✅ Advanced analytics</li>
+                            <li>✅ Performance metrics</li>
+                        </ul>
+                        <p class="text-muted"><strong>Access Code:</strong> AGRI2024MT</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card role-card h-100">
+                    <div class="card-body text-center p-4">
+                        <i class="fas fa-crown fa-4x text-warning mb-3"></i>
+                        <h5 class="card-title">👑 Administrator</h5>
+                        <p class="card-text">Full system access, user management, system monitoring, and platform administration.</p>
+                        <ul class="list-unstyled">
+                            <li>✅ All features</li>
+                            <li>✅ User management</li>
+                            <li>✅ System statistics</li>
+                            <li>✅ Platform administration</li>
+                        </ul>
+                        <p class="text-muted"><strong>Access Code:</strong> AGRI2024ADMIN</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-12 text-center">
+                <h3>Ready to Get Started?</h3>
+                <p class="lead">Join thousands of farmers and researchers using AgriVision AI</p>
+                <a href="/register" class="btn btn-success btn-lg me-3">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </a>
+                <a href="/login" class="btn btn-primary btn-lg">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-dark text-light py-4">
+        <div class="container text-center">
+            <p>&copy; 2024 AgriVision AI - Advanced Multi-User Hyperspectral Analysis Platform</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

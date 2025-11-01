@@ -1,159 +1,120 @@
-# 🌱 AgriVision AI - Hyperspectral Crop Disease Detection
+---
+title: AgriVision AI - Multi-User Platform
+emoji: 🌱
+colorFrom: green
+colorTo: blue
+sdk: gradio
+sdk_version: 4.44.0
+app_file: app.py
+pinned: false
+license: mit
+---
 
-An advanced AI-powered web application for detecting crop diseases using hyperspectral data analysis. Upload .npy, .npz, or .tiff files and get instant disease detection results with confidence scores and visualizations.
+# 🌱 AgriVision AI - Multi-User Hyperspectral Crop Disease Detection Platform
 
-## 🚀 Live Demo
+An advanced AI-powered web application for detecting crop diseases using hyperspectral data analysis with multi-user support and role-based access control.
 
-**[Access the Application](https://your-app-url.herokuapp.com)** *(Will be updated after deployment)*
+## 🚀 Features
 
-## ✨ Features
+- **Multi-User Support**: Farmer, Model Trainer, and Administrator roles
+- **Role-Based Access**: Different permissions for different user types
+- **File Format Support**: .npy, .npz, .tiff, .tif hyperspectral files
+- **Real-Time Analysis**: Instant disease detection with confidence scores
+- **Interactive Visualizations**: Spectral signatures and result charts
+- **Analysis History**: Track and review past analyses
+- **Secure Authentication**: Password-protected accounts with access codes
 
-- **Multi-format Support**: Upload .npy, .npz, .tiff, .tif hyperspectral files
-- **AI-Powered Detection**: Advanced algorithms analyze spectral signatures
-- **Interactive Visualizations**: Real-time charts and graphs
-- **Confidence Scoring**: Get reliability metrics for each prediction
-- **Responsive Design**: Works on desktop, tablet, and mobile
-- **API Access**: RESTful API for programmatic access
+## 👥 User Roles
 
-## 🛠️ Quick Start
+### 👨‍🌾 Farmer
+- Upload and analyze hyperspectral crop data
+- View disease detection results with confidence scores
+- Access personal analysis history
+- Download analysis reports
+- **Access**: Open registration (no code required)
 
-### Option 1: Run Locally
+### 🔬 Model Trainer
+- All Farmer features
+- Advanced analytics and model insights
+- Enhanced data visualization options
+- **Access Code**: `AGRI2024MT`
 
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/ganeshjalkote932/agrivision-ai.git
-   cd agrivision-ai
-   ```
+### 👑 Administrator
+- All features available
+- User management capabilities
+- System-wide statistics and monitoring
+- Platform administration tools
+- **Access Code**: `AGRI2024ADMIN`
 
-2. **Install dependencies**
-   ```bash
-   pip install -r requirements.txt
-   ```
+## 🔐 Demo Accounts
 
-3. **Run the application**
-   ```bash
-   python simple_web_app.py
-   ```
+**Administrator Account:**
+- Username: `admin`
+- Password: `AgriVision2024!`
 
-4. **Open your browser**
-   ```
-   http://localhost:5000
-   ```
+## 📊 How to Use
 
-### Option 2: Deploy to Heroku
+1. **Register/Login**: Create an account or use demo credentials
+2. **Upload Data**: Select your hyperspectral file (.npy, .npz, .tiff, .tif)
+3. **Analyze**: Click "Analyze" to process your data
+4. **View Results**: See disease detection results with visualizations
+5. **Check History**: Review your past analyses in the History tab
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/ganeshjalkote932/agrivision-ai)
+## 🔧 Supported File Formats
 
-1. Click the "Deploy to Heroku" button above
-2. Create a Heroku account if needed
-3. Choose an app name
-4. Click "Deploy app"
-
-### Option 3: Deploy to Railway
-
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template/your-template-id)
-
-## 📊 How It Works
-
-1. **Upload**: Select your hyperspectral data file (.npy, .npz, .tiff)
-2. **Process**: The system automatically preprocesses and validates your data
-3. **Analyze**: AI algorithms analyze spectral signatures for disease indicators
-4. **Results**: Get detailed predictions with confidence scores and visualizations
-
-## 🔧 API Usage
-
-### Upload and Analyze
-
-```bash
-curl -X POST -F "file=@your_data.npy" http://localhost:5000/api/predict
-```
-
-### Response Format
-
-```json
-{
-  "success": true,
-  "predictions": [
-    {
-      "sample_index": 0,
-      "prediction": 1,
-      "prediction_label": "Diseased",
-      "disease_probability": 0.85,
-      "confidence": 0.92
-    }
-  ],
-  "metadata": {
-    "file_type": "npy",
-    "original_shape": [100, 131],
-    "file_size_mb": 0.52
-  }
-}
-```
-
-## 📁 Supported File Formats
-
-| Format | Description | Example Use Case |
-|--------|-------------|------------------|
+| Format | Description | Use Case |
+|--------|-------------|----------|
 | `.npy` | NumPy array files | Single hyperspectral dataset |
 | `.npz` | Compressed NumPy archives | Multiple datasets with metadata |
 | `.tiff/.tif` | TIFF image files | Hyperspectral image cubes |
 
-## 🎯 Data Requirements
+## 📈 Analysis Output
 
-- **Spectral Range**: 400-2500 nm (recommended)
-- **Bands**: 50-300 spectral bands
-- **Format**: Reflectance values (0-1 range preferred)
-- **Size**: Maximum 100MB per file
+- **Disease Detection**: Healthy vs Diseased classification
+- **Confidence Scores**: Reliability metrics for each prediction
+- **Spectral Visualization**: Interactive plots of spectral signatures
+- **Statistical Summary**: Overall analysis statistics
+- **Sample-Level Results**: Individual predictions for each sample
 
-## 🏗️ Project Structure
+## 🛡️ Security Features
 
-```
-agrivision-ai/
-├── simple_web_app.py          # Main Flask application
-├── templates/                 # HTML templates
-│   ├── simple_index.html     # Home page
-│   ├── simple_upload.html    # Upload interface
-│   └── simple_results.html   # Results display
-├── uploads/                   # Uploaded files (auto-created)
-├── requirements.txt           # Python dependencies
-├── Procfile                  # Heroku deployment config
-├── runtime.txt               # Python version specification
-└── README.md                 # This file
-```
+- **Password Protection**: Secure user authentication
+- **Role-Based Access**: Different permissions for different roles
+- **Access Codes**: Special codes required for Model Trainer and Administrator roles
+- **Session Management**: Secure user sessions
 
-## 🔬 Technology Stack
+## 🌐 Technology Stack
 
-- **Backend**: Flask (Python)
-- **Frontend**: Bootstrap 5, HTML5, JavaScript
-- **AI/ML**: scikit-learn, NumPy
-- **Visualization**: Matplotlib
-- **File Processing**: PIL, tifffile
-- **Deployment**: Heroku, Railway, or local
+- **Frontend**: Gradio (Python-based web interface)
+- **Backend**: Python with NumPy, Pandas, Matplotlib
+- **Database**: SQLite for user management and history
+- **AI/ML**: scikit-learn for disease detection algorithms
+- **Deployment**: Hugging Face Spaces
+
+## 📝 Access Codes
+
+- **Farmer**: No access code required
+- **Model Trainer**: `AGRI2024MT`
+- **Administrator**: `AGRI2024ADMIN`
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+This project is open for contributions! Feel free to:
+- Report issues
+- Suggest new features
+- Submit pull requests
+- Improve documentation
 
-## 📝 License
+## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🆘 Support
-
-- **Issues**: [GitHub Issues](https://github.com/ganeshjalkote932/agrivision-ai/issues)
-- **Documentation**: [Wiki](https://github.com/ganeshjalkote932/agrivision-ai/wiki)
-- **Email**: your.email@example.com
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## 🙏 Acknowledgments
 
-- Built for agricultural technology advancement
-- Supports precision farming initiatives
-- Contributes to sustainable crop management
+- Built for advancing precision agriculture
+- Supports sustainable farming practices
+- Contributes to global food security initiatives
 
 ---
 
-**AgriVision AI - Made with ❤️ for sustainable agriculture**
+**AgriVision AI - Empowering farmers with AI-driven crop disease detection technology** 🌾
