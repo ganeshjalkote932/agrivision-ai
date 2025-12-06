@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+
+{% block title %}Model Information - Admin{% endblock %}
+
+{% block navigation %}
+<div class="nav-links">
+    <a href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('admin.users') }}">User Management</a>
+    <a href="{{ url_for('admin.files') }}">File Monitoring</a>
+    <a href="{{ url_for('admin.model_info') }}" class="active">Model Info</a>
+    <a href="{{ url_for('admin.statistics') }}">Statistics</a>
+    <a href="{{ url_for('admin.logout') }}">Logout</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>Model Information</h1>
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+
+    {% if model_exists %}
+    <div class="model-info-container">
+        <!-- Model Overview -->
+        <div class="info-card">
+            <h2>Model Overview</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="label">Model Type:</span>
+                    <span class="value">{{ model_info.model_type }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Device:</span>
+                    <span class="value device-badge">{{ model_info.device }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Model Path:</span>
+                    <span class="value">{{ model_info.model_path }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Model Size:</span>
+                    <span class="value">{{ model_info.model_size_mb }} MB</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Model Parameters -->
+        <div class="info-card">
+            <h2>Model Parameters</h2>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="label">Total Parameters:</span>
+                    <span class="value">{{ "{:,}".format(model_info.total_parameters) }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Trainable Parameters:</span>
+                    <span class="value">{{ "{:,}".format(model_info.trainable_parameters) }}</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Number of Layers:</span>
+                    <span class="value">{{ model_info.num_layers }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Model Architecture -->
+        <div class="info-card">
+            <h2>Model Architecture</h2>
+            <div class="architecture-details">
+                <pre>{{ model_info.architecture }}</pre>
+            </div>
+        </div>
+
+        <!-- Layer Details -->
+        {% if model_info.layers and model_info.layers|length > 0 %}
+        <div class="info-card">
+            <h2>Layer Details</h2>
+            <div class="table-container">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Layer Name</th>
+                            <th>Type</th>
+                            <th>Parameters</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for layer in model_info.layers %}
+                        <tr>
+                            <td>{{ layer.name }}</td>
+                            <td>{{ layer.type }}</td>
+                            <td>{{ "{:,}".format(layer.parameters) if layer.parameters is defined else 'N/A' }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="alert alert-error">
+        <p>Model file not found at: {{ model_info.model_path if model_info else 'Unknown path' }}</p>
+        <p>Please ensure the model file is in the correct location.</p>
+    </div>
+    {% endif %}
+</div>
+
+<style>
+.model-info-container {
+    margin-top: 20px;
+}
+
+.info-card {
+    background: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.info-card h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: #2c5f2d;
+    font-size: 1.5em;
+    border-bottom: 2px solid #97c05c;
+    padding-bottom: 10px;
+}
+
+.info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
+}
+
+.info-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 4px;
+}
+
+.info-item .label {
+    font-weight: bold;
+    color: #555;
+}
+
+.info-item .value {
+    color: #333;
+    text-align: right;
+}
+
+.device-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-weight: bold;
+    background: #97c05c;
+    color: white;
+}
+
+.architecture-details pre {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 4px;
+    overflow-x: auto;
+    font-size: 0.9em;
+    line-height: 1.4;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.data-table th,
+.data-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.data-table th {
+    background: #2c5f2d;
+    color: white;
+    font-weight: bold;
+}
+
+.data-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.alert {
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+.alert-error {
+    background: #fee;
+    border: 1px solid #fcc;
+    color: #c33;
+}
+</style>
+{% endblock %}

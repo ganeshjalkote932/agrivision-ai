@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}503 - Service Unavailable{% endblock %}
+
+{% block content %}
+<div class="error-page">
+    <div class="error-container">
+        <h1 class="error-code">503</h1>
+        <h2 class="error-title">Service Unavailable</h2>
+        <p class="error-message">
+            The service is temporarily unavailable due to maintenance or high load.
+            Please try again in a few moments.
+        </p>
+        <div class="error-actions">
+            <a href="javascript:location.reload()" class="btn btn-primary">
+                Retry
+            </a>
+            <a href="javascript:history.back()" class="btn btn-secondary">
+                Go Back
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

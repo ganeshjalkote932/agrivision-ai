@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}413 - File Too Large{% endblock %}
+
+{% block content %}
+<div class="error-page">
+    <div class="error-container">
+        <h1 class="error-code">413</h1>
+        <h2 class="error-title">File Too Large</h2>
+        <p class="error-message">
+            The uploaded file exceeds the maximum allowed size of 10MB.
+        </p>
+        <div class="error-actions">
+            <a href="{{ url_for('farmer.dashboard') }}" class="btn btn-primary">
+                Go to Dashboard
+            </a>
+            <a href="javascript:history.back()" class="btn btn-secondary">
+                Try Again
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

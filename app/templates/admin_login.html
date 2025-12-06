@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Login - Crop Disease Detection System{% endblock %}
+
+{% block navigation %}
+<div class="nav-links">
+    <a href="{{ url_for('admin.register') }}">Admin Register</a>
+    <a href="{{ url_for('farmer.login') }}">Farmer Login</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Administrator Login</h2>
+        <p class="auth-subtitle">Access administrative functions</p>
+        
+        <form method="POST" action="{{ url_for('admin.login') }}" class="auth-form">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" 
+                       value="{{ email if email else '' }}" 
+                       required
+                       placeholder="admin@example.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" 
+                       required
+                       placeholder="Enter your password">
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+        
+        <div class="auth-links">
+            <p>Don't have an account? <a href="{{ url_for('admin.register') }}">Register here</a></p>
+            <p>Are you a farmer? <a href="{{ url_for('farmer.login') }}">Login as Farmer</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}400 - Bad Request{% endblock %}
+
+{% block content %}
+<div class="error-page">
+    <div class="error-container">
+        <h1 class="error-code">400</h1>
+        <h2 class="error-title">Bad Request</h2>
+        <p class="error-message">
+            The request could not be understood or was missing required parameters.
+        </p>
+        <div class="error-actions">
+            <a href="{{ url_for('farmer.dashboard') if session.get('user_type') == 'farmer' else url_for('admin.dashboard') if session.get('user_type') == 'admin' else '/' }}" class="btn btn-primary">
+                Go to Dashboard
+            </a>
+            <a href="javascript:history.back()" class="btn btn-secondary">
+                Go Back
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

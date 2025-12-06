@@ -1,0 +1,202 @@
+{% extends "base.html" %}
+
+{% block title %}File Monitoring - Admin Dashboard{% endblock %}
+
+{% block navigation %}
+<div class="nav-links">
+    <a href="{{ url_for('admin.dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('admin.users') }}">User Management</a>
+    <a href="{{ url_for('admin.files') }}" class="active">File Monitoring</a>
+    <a href="{{ url_for('admin.model_info') }}">Model Info</a>
+    <a href="{{ url_for('admin.statistics') }}">Statistics</a>
+    <a href="{{ url_for('admin.logout') }}">Logout</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="page-header">
+        <h1>File Monitoring</h1>
+        <p class="subtitle">View and manage all uploaded files</p>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">📁</div>
+            <div class="stat-content">
+                <div class="stat-value">{{ stats.total_files }}</div>
+                <div class="stat-label">Total Files</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-content">
+                <div class="stat-value">{{ stats.completed_count }}</div>
+                <div class="stat-label">Completed</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">⏳</div>
+            <div class="stat-content">
+                <div class="stat-value">{{ stats.pending_count + stats.processing_count }}</div>
+                <div class="stat-label">Pending/Processing</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🦠</div>
+            <div class="stat-content">
+                <div class="stat-value">{{ stats.diseased_count }}</div>
+                <div class="stat-label">Diseased</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">🌱</div>
+            <div class="stat-content">
+                <div class="stat-value">{{ stats.healthy_count }}</div>
+                <div class="stat-label">Healthy</div>
+            </div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-content">
+                <div class="stat-value">{{ "%.2f"|format(stats.average_confidence * 100) }}%</div>
+                <div class="stat-label">Avg Confidence</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Filters and Search -->
+    <div class="filters-section">
+        <form method="GET" action="{{ url_for('admin.files') }}" class="filters-form">
+            <!-- Status Filter -->
+            <div class="filter-group">
+                <label for="filter_status">Filter by Status:</label>
+                <select name="filter_status" id="filter_status" onchange="this.form.submit()">
+                    <option value="all" {% if filter_status == 'all' %}selected{% endif %}>All Files</option>
+                    <option value="diseased" {% if filter_status == 'diseased' %}selected{% endif %}>Diseased</option>
+                    <option value="healthy" {% if filter_status == 'healthy' %}selected{% endif %}>Healthy</option>
+                    <option value="pending" {% if filter_status == 'pending' %}selected{% endif %}>Pending</option>
+                    <option value="processing" {% if filter_status == 'processing' %}selected{% endif %}>Processing</option>
+                    <option value="completed" {% if filter_status == 'completed' %}selected{% endif %}>Completed</option>
+                </select>
+            </div>
+
+            <!-- Search -->
+            <div class="filter-group">
+                <label for="search">Search by Filename:</label>
+                <input type="text" name="search" id="search" value="{{ search_query }}" 
+                       placeholder="Enter filename prefix...">
+            </div>
+
+            <!-- Sort By -->
+            <div class="filter-group">
+                <label for="sort_by">Sort By:</label>
+                <select name="sort_by" id="sort_by" onchange="this.form.submit()">
+                    <option value="upload_timestamp" {% if sort_by == 'upload_timestamp' %}selected{% endif %}>Upload Date</option>
+                    <option value="filename" {% if sort_by == 'filename' %}selected{% endif %}>Filename</option>
+                    <option value="farmer_name" {% if sort_by == 'farmer_name' %}selected{% endif %}>Farmer Name</option>
+                    <option value="detection_result" {% if sort_by == 'detection_result' %}selected{% endif %}>Result</option>
+                    <option value="confidence_score" {% if sort_by == 'confidence_score' %}selected{% endif %}>Confidence</option>
+                </select>
+            </div>
+
+            <!-- Sort Order -->
+            <div class="filter-group">
+                <label for="sort_order">Order:</label>
+                <select name="sort_order" id="sort_order" onchange="this.form.submit()">
+                    <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>Descending</option>
+                    <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>Ascending</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Apply Filters</button>
+            <a href="{{ url_for('admin.files') }}" class="btn btn-secondary">Clear</a>
+        </form>
+
+        <!-- Export Button -->
+        <div class="export-section">
+            <a href="{{ url_for('admin.export_files', format='csv') }}?{{ request.query_string.decode() }}" 
+               class="btn btn-success">
+                📥 Export to CSV
+            </a>
+            <a href="{{ url_for('admin.export_files', format='json') }}?{{ request.query_string.decode() }}" 
+               class="btn btn-success">
+                📥 Export to JSON
+            </a>
+        </div>
+    </div>
+
+    <!-- Files Table -->
+    <div class="table-container">
+        {% if files %}
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>File ID</th>
+                    <th>Filename</th>
+                    <th>Uploader</th>
+                    <th>Email</th>
+                    <th>Upload Date</th>
+                    <th>Result</th>
+                    <th>Confidence</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for file in files %}
+                <tr>
+                    <td>{{ file.file_id }}</td>
+                    <td class="filename">{{ file.filename }}</td>
+                    <td>{{ file.farmer_name }}</td>
+                    <td>{{ file.farmer_email }}</td>
+                    <td>{{ file.upload_timestamp.strftime('%Y-%m-%d %H:%M:%S') if file.upload_timestamp else 'N/A' }}</td>
+                    <td>
+                        {% if file.detection_result == 'diseased' %}
+                            <span class="badge badge-danger">🦠 Diseased</span>
+                        {% elif file.detection_result == 'healthy' %}
+                            <span class="badge badge-success">🌱 Healthy</span>
+                        {% else %}
+                            <span class="badge badge-secondary">N/A</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if file.confidence_score %}
+                            {{ "%.2f"|format(file.confidence_score * 100) }}%
+                        {% else %}
+                            N/A
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if file.processing_status == 'completed' %}
+                            <span class="badge badge-success">Completed</span>
+                        {% elif file.processing_status == 'processing' %}
+                            <span class="badge badge-warning">Processing</span>
+                        {% elif file.processing_status == 'pending' %}
+                            <span class="badge badge-info">Pending</span>
+                        {% elif file.processing_status == 'failed' %}
+                            <span class="badge badge-danger">Failed</span>
+                        {% else %}
+                            <span class="badge badge-secondary">{{ file.processing_status }}</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="empty-state">
+            <p>No files found matching your criteria.</p>
+            {% if search_query or filter_status != 'all' %}
+            <a href="{{ url_for('admin.files') }}" class="btn btn-primary">Clear Filters</a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Back to Dashboard -->
+    <div class="actions">
+        <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary">← Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

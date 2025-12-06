@@ -1,0 +1,8 @@
+Flask==3.0.0
+torch>=2.0.0
+torchvision>=0.15.0
+mysql-connector-python==8.2.0
+bcrypt==4.1.1
+Pillow==10.1.0
+hypothesis==6.92.1
+Werkzeug==3.0.1

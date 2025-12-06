@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Crop Disease Detection System{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card" style="max-width: 600px;">
+        <h2>Welcome to Crop Disease Detection System</h2>
+        <p class="auth-subtitle">
+            Advanced hyperspectral image analysis for crop disease detection
+        </p>
+        
+        <div style="margin: 2rem 0;">
+            <h3 style="margin-bottom: 1rem;">Choose Your Portal</h3>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <a href="{{ url_for('farmer.login') }}" class="link-card">
+                    <h4>🌾 Farmer Portal</h4>
+                    <p>Upload images for disease detection</p>
+                </a>
+                
+                <a href="{{ url_for('admin.login') }}" class="link-card">
+                    <h4>👨‍💼 Admin Portal</h4>
+                    <p>Manage users and monitor system</p>
+                </a>
+            </div>
+        </div>
+        
+        <div class="auth-links">
+            <p>New user? <a href="{{ url_for('farmer.register') }}">Register as Farmer</a></p>
+            <p>Administrator? <a href="{{ url_for('admin.register') }}">Register as Admin</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

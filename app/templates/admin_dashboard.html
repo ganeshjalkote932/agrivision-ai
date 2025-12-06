@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Dashboard - Crop Disease Detection System{% endblock %}
+
+{% block navigation %}
+<div class="nav-links">
+    <a href="{{ url_for('admin.dashboard') }}" class="active">Dashboard</a>
+    <a href="{{ url_for('admin.users') }}">User Management</a>
+    <a href="{{ url_for('admin.files') }}">File Monitoring</a>
+    <a href="{{ url_for('admin.model_info') }}">Model Info</a>
+    <a href="{{ url_for('admin.statistics') }}">Statistics</a>
+    <a href="{{ url_for('admin.logout') }}">Logout</a>
+</div>
+<div class="user-info">
+    <span>Admin: {{ current_user.name }}</span>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <div class="dashboard-header">
+        <h2>Administrator Dashboard</h2>
+        <p>Welcome, {{ current_user.name }}!</p>
+    </div>
+    
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Farmers</h3>
+            <div class="stat-number">{{ stats.total_farmers }}</div>
+            <div class="stat-detail">{{ stats.active_farmers }} active</div>
+        </div>
+        
+        <div class="stat-card">
+            <h3>Administrators</h3>
+            <div class="stat-number">{{ stats.total_admins }}</div>
+            <div class="stat-detail">{{ stats.active_admins }} active</div>
+        </div>
+        
+        <div class="stat-card">
+            <h3>Total Files</h3>
+            <div class="stat-number">{{ stats.total_files }}</div>
+            <div class="stat-detail">{{ stats.completed_files }} completed, {{ stats.pending_files }} pending</div>
+        </div>
+        
+        <div class="stat-card">
+            <h3>Detection Results</h3>
+            <div class="stat-number">{{ stats.diseased_count + stats.healthy_count }}</div>
+            <div class="stat-detail">{{ stats.diseased_count }} diseased, {{ stats.healthy_count }} healthy</div>
+        </div>
+    </div>
+    
+    <div class="dashboard-actions">
+        <h3>Quick Actions</h3>
+        <div class="action-buttons">
+            <a href="{{ url_for('admin.users') }}" class="btn btn-primary">
+                <span class="icon">👥</span>
+                Manage Users
+            </a>
+            <a href="{{ url_for('admin.files') }}" class="btn btn-primary">
+                <span class="icon">📁</span>
+                Monitor Files
+            </a>
+            <a href="{{ url_for('admin.model_info') }}" class="btn btn-primary">
+                <span class="icon">🤖</span>
+                Model Information
+            </a>
+            <a href="{{ url_for('admin.statistics') }}" class="btn btn-primary">
+                <span class="icon">📊</span>
+                View Statistics
+            </a>
+        </div>
+    </div>
+    
+    {% if recent_actions %}
+    <div class="recent-activity">
+        <h3>Recent Activity</h3>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Admin</th>
+                    <th>Action</th>
+                    <th>Target</th>
+                    <th>Details</th>
+                    <th>Timestamp</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for action in recent_actions %}
+                <tr>
+                    <td>{{ action.admin_name }}</td>
+                    <td>{{ action.action_type }}</td>
+                    <td>
+                        {% if action.target_user_type %}
+                            {{ action.target_user_type|capitalize }} #{{ action.target_user_code }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td>{{ action.action_details or '-' }}</td>
+                    <td>{{ action.timestamp.strftime('%Y-%m-%d %H:%M:%S') if action.timestamp else '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Farmer Registration - Crop Disease Detection System{% endblock %}
+
+{% block navigation %}
+<div class="nav-links">
+    <a href="{{ url_for('farmer.login') }}">Login</a>
+    <a href="{{ url_for('admin.login') }}">Admin Login</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Farmer Registration</h2>
+        <p class="subtitle">Create your account to start detecting crop diseases</p>
+        
+        <form method="POST" action="{{ url_for('farmer.register') }}" class="auth-form" id="farmerRegisterForm">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" value="{{ name or '' }}" 
+                       required minlength="2" maxlength="100"
+                       placeholder="Enter your full name">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" value="{{ email or '' }}" 
+                       required placeholder="Enter your email">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" 
+                       required minlength="8"
+                       placeholder="Enter password (min 8 characters)">
+                <small>Password must be at least 8 characters long</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" id="confirm_password" name="confirm_password" 
+                       required minlength="8"
+                       placeholder="Confirm your password">
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Already have an account? <a href="{{ url_for('farmer.login') }}">Login here</a></p>
+            <p>Are you an administrator? <a href="{{ url_for('admin.register') }}">Register as Admin</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('farmerRegisterForm').addEventListener('submit', function(e) {
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirm_password').value;
+    
+    // Check if passwords match
+    if (password !== confirmPassword) {
+        e.preventDefault();
+        alert('Passwords do not match. Please try again.');
+        return false;
+    }
+    
+    // Check password length
+    if (password.length < 8) {
+        e.preventDefault();
+        alert('Password must be at least 8 characters long.');
+        return false;
+    }
+});
+</script>
+{% endblock %}

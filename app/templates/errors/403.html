@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}403 - Forbidden{% endblock %}
+
+{% block content %}
+<div class="error-page">
+    <div class="error-container">
+        <h1 class="error-code">403</h1>
+        <h2 class="error-title">Forbidden</h2>
+        <p class="error-message">
+            You do not have permission to access this resource.
+        </p>
+        <div class="error-actions">
+            <a href="{{ url_for('farmer.dashboard') if session.get('user_type') == 'farmer' else url_for('admin.dashboard') if session.get('user_type') == 'admin' else '/' }}" class="btn btn-primary">
+                Go to Dashboard
+            </a>
+            <a href="javascript:history.back()" class="btn btn-secondary">
+                Go Back
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

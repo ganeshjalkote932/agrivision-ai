@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+
+{% block title %}Detection History - Crop Disease Detection System{% endblock %}
+
+{% block navigation %}
+<div class="nav-links">
+    <a href="{{ url_for('farmer.dashboard') }}">Dashboard</a>
+    <a href="{{ url_for('farmer.history') }}" class="active">Detection History</a>
+    <a href="{{ url_for('farmer.logout') }}">Logout</a>
+</div>
+<div class="user-info">
+    <span>Welcome, {{ user_name }}</span>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="history-container">
+    <div class="history-header">
+        <h2>Detection History</h2>
+        <p>View all your uploaded images and detection results</p>
+    </div>
+    
+    <!-- Search and Filter -->
+    <div class="search-section">
+        <form method="GET" action="{{ url_for('farmer.history') }}" class="search-form">
+            <div class="search-group">
+                <input type="text" name="search" value="{{ search_query or '' }}" 
+                       placeholder="Search by filename..." class="search-input">
+                <button type="submit" class="btn btn-secondary">Search</button>
+                {% if search_query %}
+                <a href="{{ url_for('farmer.history') }}" class="btn btn-outline">Clear</a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+    
+    <!-- Results Summary -->
+    <div class="results-summary">
+        <p>Showing {{ files|length }} of {{ total_files }} results
+        {% if search_query %}
+            for "{{ search_query }}"
+        {% endif %}
+        </p>
+    </div>
+    
+    <!-- History Table -->
+    {% if files %}
+    <div class="table-container">
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>
+                        <a href="{{ url_for('farmer.history', search=search_query, sort_by='filename', sort_order='asc' if sort_by == 'filename' and sort_order == 'desc' else 'desc', page=page) }}">
+                            Filename
+                            {% if sort_by == 'filename' %}
+                                <span class="sort-indicator">{{ '↑' if sort_order == 'asc' else '↓' }}</span>
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ url_for('farmer.history', search=search_query, sort_by='upload_timestamp', sort_order='asc' if sort_by == 'upload_timestamp' and sort_order == 'desc' else 'desc', page=page) }}">
+                            Upload Date
+                            {% if sort_by == 'upload_timestamp' %}
+                                <span class="sort-indicator">{{ '↑' if sort_order == 'asc' else '↓' }}</span>
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>Status</th>
+                    <th>
+                        <a href="{{ url_for('farmer.history', search=search_query, sort_by='detection_result', sort_order='asc' if sort_by == 'detection_result' and sort_order == 'desc' else 'desc', page=page) }}">
+                            Result
+                            {% if sort_by == 'detection_result' %}
+                                <span class="sort-indicator">{{ '↑' if sort_order == 'asc' else '↓' }}</span>
+                            {% endif %}
+                        </a>
+                    </th>
+                    <th>
+                        <a href="{{ url_for('farmer.history', search=search_query, sort_by='confidence_score', sort_order='asc' if sort_by == 'confidence_score' and sort_order == 'desc' else 'desc', page=page) }}">
+                            Confidence
+                            {% if sort_by == 'confidence_score' %}
+                                <span class="sort-indicator">{{ '↑' if sort_order == 'asc' else '↓' }}</span>
+                            {% endif %}
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for file in files %}
+                <tr>
+                    <td class="filename">{{ file.filename }}</td>
+                    <td>{{ file.upload_date.strftime('%Y-%m-%d %H:%M:%S') if file.upload_date else 'N/A' }}</td>
+                    <td>
+                        <span class="status-badge status-{{ file.processing_status }}">
+                            {{ file.processing_status.capitalize() }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if file.detection_result %}
+                        <span class="result-badge result-{{ file.detection_result }}">
+                            {{ file.detection_result_display }}
+                        </span>
+                        {% else %}
+                        <span class="result-badge result-pending">Pending</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ file.confidence_percentage }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Pagination -->
+    {% if total_pages > 1 %}
+    <div class="pagination">
+        {% if page > 1 %}
+        <a href="{{ url_for('farmer.history', search=search_query, sort_by=sort_by, sort_order=sort_order, page=page-1) }}" 
+           class="btn btn-outline">Previous</a>
+        {% endif %}
+        
+        <span class="page-info">Page {{ page }} of {{ total_pages }}</span>
+        
+        {% if page < total_pages %}
+        <a href="{{ url_for('farmer.history', search=search_query, sort_by=sort_by, sort_order=sort_order, page=page+1) }}" 
+           class="btn btn-outline">Next</a>
+        {% endif %}
+    </div>
+    {% endif %}
+    
+    {% else %}
+    <div class="empty-state">
+        <p>No detection history found.</p>
+        {% if search_query %}
+        <p>Try a different search term or <a href="{{ url_for('farmer.history') }}">view all results</a>.</p>
+        {% else %}
+        <p><a href="{{ url_for('farmer.dashboard') }}">Upload your first image</a> to get started.</p>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

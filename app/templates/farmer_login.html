@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Farmer Login - Crop Disease Detection System{% endblock %}
+
+{% block navigation %}
+<div class="nav-links">
+    <a href="{{ url_for('farmer.register') }}">Register</a>
+    <a href="{{ url_for('admin.login') }}">Admin Login</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Farmer Login</h2>
+        <p class="subtitle">Access your crop disease detection dashboard</p>
+        
+        <form method="POST" action="{{ url_for('farmer.login') }}" class="auth-form" id="farmerLoginForm">
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" value="{{ email or '' }}" 
+                       required placeholder="Enter your email" autocomplete="email">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" 
+                       required placeholder="Enter your password" autocomplete="current-password">
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>Don't have an account? <a href="{{ url_for('farmer.register') }}">Register here</a></p>
+            <p>Are you an administrator? <a href="{{ url_for('admin.login') }}">Login as Admin</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('farmerLoginForm').addEventListener('submit', function(e) {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    
+    if (!email || !password) {
+        e.preventDefault();
+        alert('Please fill in all fields.');
+        return false;
+    }
+});
+</script>
+{% endblock %}

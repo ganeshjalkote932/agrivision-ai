@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Registration - Crop Disease Detection System{% endblock %}
+
+{% block navigation %}
+<div class="nav-links">
+    <a href="{{ url_for('admin.login') }}">Admin Login</a>
+    <a href="{{ url_for('farmer.login') }}">Farmer Login</a>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Administrator Registration</h2>
+        <p class="auth-subtitle">Register with special authorization code</p>
+        
+        <form method="POST" action="{{ url_for('admin.register') }}" class="auth-form" id="adminRegisterForm">
+            <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" 
+                       value="{{ name if name else '' }}" 
+                       required minlength="2" maxlength="100"
+                       placeholder="Enter your full name">
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" 
+                       value="{{ email if email else '' }}" 
+                       required
+                       placeholder="admin@example.com">
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" 
+                       required minlength="8"
+                       placeholder="Minimum 8 characters">
+                <small class="form-hint">Must contain uppercase, lowercase, and numbers</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="special_code">Special Authorization Code</label>
+                <input type="password" id="special_code" name="special_code" 
+                       required
+                       placeholder="Enter special admin code">
+                <small class="form-hint">Required for administrator registration</small>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Register as Administrator</button>
+        </form>
+        
+        <div class="auth-links">
+            <p>Already have an account? <a href="{{ url_for('admin.login') }}">Login here</a></p>
+            <p>Are you a farmer? <a href="{{ url_for('farmer.register') }}">Register as Farmer</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('adminRegisterForm').addEventListener('submit', function(e) {
+    const password = document.getElementById('password').value;
+    
+    // Password strength validation
+    const hasUpper = /[A-Z]/.test(password);
+    const hasLower = /[a-z]/.test(password);
+    const hasNumber = /[0-9]/.test(password);
+    
+    if (!hasUpper || !hasLower || !hasNumber) {
+        e.preventDefault();
+        alert('Password must contain at least one uppercase letter, one lowercase letter, and one number');
+        return false;
+    }
+});
+</script>
+{% endblock %}

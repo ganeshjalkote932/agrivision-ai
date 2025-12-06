@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block title %}500 - Internal Server Error{% endblock %}
+
+{% block content %}
+<div class="error-page">
+    <div class="error-container">
+        <h1 class="error-code">500</h1>
+        <h2 class="error-title">Internal Server Error</h2>
+        <p class="error-message">
+            An unexpected error occurred. Our team has been notified and is working to fix the issue.
+            Please try again later.
+        </p>
+        <div class="error-actions">
+            <a href="{{ url_for('farmer.dashboard') if session.get('user_type') == 'farmer' else url_for('admin.dashboard') if session.get('user_type') == 'admin' else '/' }}" class="btn btn-primary">
+                Go to Dashboard
+            </a>
+            <a href="javascript:history.back()" class="btn btn-secondary">
+                Go Back
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}401 - Unauthorized{% endblock %}
+
+{% block content %}
+<div class="error-page">
+    <div class="error-container">
+        <h1 class="error-code">401</h1>
+        <h2 class="error-title">Unauthorized</h2>
+        <p class="error-message">
+            Authentication is required to access this resource. Please log in to continue.
+        </p>
+        <div class="error-actions">
+            <a href="{{ url_for('farmer.login') }}" class="btn btn-primary">
+                Farmer Login
+            </a>
+            <a href="{{ url_for('admin.login') }}" class="btn btn-secondary">
+                Admin Login
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
